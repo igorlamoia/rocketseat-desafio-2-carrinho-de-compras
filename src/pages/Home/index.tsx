@@ -23,16 +23,12 @@ interface CartItemsAmount {
 
 const Home = (): JSX.Element => {
 	const [products, setProducts] = useState<ProductFormatted[]>([]);
-	const { addProduct, updateProductAmount, cart } = useCart();
-
-	// console.log(cart);
+	const { addProduct, cart } = useCart();
 
 	const cartItemsAmount = cart.reduce((sumAmount, product) => {
 		sumAmount[product.id] = product.amount;
 		return sumAmount;
 	}, {} as CartItemsAmount);
-
-	console.log('Cart amountn', cartItemsAmount);
 
 	useEffect(() => {
 		(async () => {
@@ -42,8 +38,7 @@ const Home = (): JSX.Element => {
 	}, []);
 
 	function handleAddProduct(id: number) {
-		if (!cartItemsAmount[id]) return addProduct(id);
-		updateProductAmount({ productId: id, amount: cartItemsAmount[id] + 1 });
+		addProduct(id);
 	}
 
 	return (
